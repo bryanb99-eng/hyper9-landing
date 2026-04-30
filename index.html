@@ -511,7 +511,63 @@
    .feature-card .spoke-label { font-size: 0.5rem; letter-spacing: 0.5px; }
    .hub-center { width: 75px; height: 75px; }
  }
- </style>
+ 
+  /* ── US Map Animation Styles ── */
+  #hub { position: relative; overflow: hidden; }
+  .prospect-dot {
+    position: absolute;
+    width: 6px; height: 6px;
+    background: #c0162c;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    box-shadow: 0 0 6px #c0162c, 0 0 12px rgba(192,22,44,0.5);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s;
+  }
+  .prospect-dot.visible { opacity: 1; }
+  .prospect-dot.ping {
+    animation: dot-ping 0.6s ease-out forwards;
+  }
+  @keyframes dot-ping {
+    0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+    60%  { transform: translate(-50%,-50%) scale(1.8); opacity: 0.9; }
+    100% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+  }
+  .msg-packet {
+    position: absolute;
+    width: 10px; height: 10px;
+    border-radius: 2px;
+    pointer-events: none;
+    z-index: 3;
+    opacity: 0;
+    font-size: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  @keyframes packet-fly {
+    0%   { opacity: 1; transform: translate(0,0) scale(1); }
+    80%  { opacity: 0.8; }
+    100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+  }
+  .hub-overlay-text {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    font-size: 0.5rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    text-align: center;
+    pointer-events: none;
+    z-index: 10;
+    opacity: 0;
+    transition: opacity 0.4s;
+    white-space: nowrap;
+  }
+
+</style>
   <!-- GHL Tracking - replace YOUR_LOCATION_ID with actual GHL location ID -->
   <!-- <script src="https://widgets.leadconnectorhq.com/loader.js" data-resources-url="https://widgets.leadconnectorhq.com/chat-widget/loader.js"></script> -->
 </head>
@@ -583,6 +639,27 @@
    <h2 class="reveal">Meet Your New AI Employee</h2>
    <p class="subtitle reveal">One system. Five jobs. Working 24/7 while you focus on what you do best.</p>
    <div class="hub-container reveal-scale" id="hub">
+     <!-- US Map background -->
+     <svg id="us-map-bg" viewBox="0 0 960 600" xmlns="http://www.w3.org/2000/svg" style="position:absolute;top:0;left:0;width:100%;height:100%;opacity:0.13;pointer-events:none;z-index:0;">
+       <!-- Simplified US outline paths -->
+       <path d="M180,120 L200,100 L240,95 L280,90 L320,88 L360,90 L400,95 L440,100 L480,98 L520,95 L560,90 L600,88 L640,85 L680,88 L720,90 L760,95 L800,100 L830,110 L850,130 L860,150 L865,175 L860,200 L850,225 L840,250 L835,275 L840,300 L845,325 L840,350 L830,370 L820,385 L800,395 L780,400 L760,405 L740,410 L720,415 L700,420 L680,422 L660,420 L640,415 L620,412 L600,415 L580,418 L560,420 L540,418 L520,415 L500,418 L480,422 L460,425 L440,428 L420,425 L400,420 L380,418 L360,420 L340,422 L320,425 L300,428 L280,430 L260,428 L240,425 L220,420 L200,415 L185,405 L175,390 L170,370 L168,350 L165,325 L162,300 L160,275 L158,250 L155,225 L152,200 L150,175 L152,150 L158,135 L170,125 Z" fill="none" stroke="#c0162c" stroke-width="1.5"/>
+       <!-- Great Lakes hint -->
+       <ellipse cx="640" cy="175" rx="25" ry="12" fill="#c0162c" opacity="0.3"/>
+       <ellipse cx="680" cy="160" rx="18" ry="9" fill="#c0162c" opacity="0.3"/>
+       <!-- Florida -->
+       <path d="M680,390 L690,400 L700,415 L705,430 L700,445 L690,455 L680,458 L672,450 L668,435 L665,420 L668,405 L675,395 Z" fill="none" stroke="#c0162c" stroke-width="1"/>
+       <!-- Texas bulge -->
+       <path d="M400,350 L380,360 L365,375 L355,395 L350,415 L355,430 L365,440 L380,445 L400,440 L420,435 L435,420 L440,405 L435,390 L425,375 L415,362 Z" fill="none" stroke="#c0162c" stroke-width="1"/>
+       <!-- State grid lines (subtle) -->
+       <line x1="280" y1="90" x2="280" y2="420" stroke="#c0162c" stroke-width="0.4" stroke-dasharray="4,8"/>
+       <line x1="400" y1="88" x2="400" y2="430" stroke="#c0162c" stroke-width="0.4" stroke-dasharray="4,8"/>
+       <line x1="520" y1="90" x2="520" y2="420" stroke="#c0162c" stroke-width="0.4" stroke-dasharray="4,8"/>
+       <line x1="640" y1="88" x2="640" y2="415" stroke="#c0162c" stroke-width="0.4" stroke-dasharray="4,8"/>
+       <line x1="160" y1="200" x2="860" y2="200" stroke="#c0162c" stroke-width="0.4" stroke-dasharray="4,8"/>
+       <line x1="160" y1="300" x2="860" y2="300" stroke="#c0162c" stroke-width="0.4" stroke-dasharray="4,8"/>
+     </svg>
+     <!-- Prospect dots canvas -->
+     <canvas id="prospect-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
 
 
 
@@ -814,120 +891,223 @@ const statsObserver = new IntersectionObserver((entries) => {
 statsObserver.observe(document.getElementById('stats'));
 
 /* ═══════════════════════════════════════════════
-   WAVE ACTIVATION SEQUENCE
+   WAVE ACTIVATION SEQUENCE + MAP ANIMATIONS
    ═══════════════════════════════════════════════ */
 (function() {
- const hubEl = document.getElementById('hub');
- const hubPulse = document.getElementById('hub-pulse');
- const cards = Array.from(document.querySelectorAll('.feature-card'));
+  const hubEl    = document.getElementById('hub');
+  const hubPulse = document.getElementById('hub-pulse');
+  const cards    = Array.from(document.querySelectorAll('.feature-card'));
+  const canvas   = document.getElementById('prospect-canvas');
 
- let running = false;
- let timeouts = [];
+  let running  = false;
+  let timeouts = [];
+  let prospectDots = [];
 
- function clearTimeouts() { timeouts.forEach(clearTimeout); timeouts = []; }
+  function clearTimeouts() { timeouts.forEach(clearTimeout); timeouts = []; }
 
- function createWaveRing(container) {
-   const ring = document.createElement('div');
-   ring.className = 'wave-ring';
-   container.appendChild(ring);
-   const size = container.offsetWidth * 0.95;
-   // Start at hub size (120px), expand outward as a thin ring
-   requestAnimationFrame(() => {
-     ring.style.opacity = '0.7';
-     requestAnimationFrame(() => {
-       ring.style.transition = 'width 1.3s cubic-bezier(0.25,0.46,0.45,0.94), height 1.3s cubic-bezier(0.25,0.46,0.45,0.94), opacity 1.4s ease-out';
-       ring.style.width = size + 'px';
-       ring.style.height = size + 'px';
-       ring.style.opacity = '0';
-     });
-   });
-   timeouts.push(setTimeout(() => ring.remove(), 1600));
- }
+  /* ---------- helpers ---------- */
+  function createWaveRing(container) {
+    const ring = document.createElement('div');
+    ring.className = 'wave-ring';
+    container.appendChild(ring);
+    const size = container.offsetWidth * 0.95;
+    requestAnimationFrame(() => {
+      ring.style.opacity = '0.7';
+      requestAnimationFrame(() => {
+        ring.style.transition = 'width 1.3s cubic-bezier(0.25,0.46,0.45,0.94), height 1.3s cubic-bezier(0.25,0.46,0.45,0.94), opacity 1.4s ease-out';
+        ring.style.width  = size + 'px';
+        ring.style.height = size + 'px';
+        ring.style.opacity = '0';
+      });
+    });
+    timeouts.push(setTimeout(() => ring.remove(), 1600));
+  }
 
- function pulseCenter() {
-   hubPulse.style.transition = 'none';
-   hubPulse.style.opacity = '0.8';
-   hubPulse.style.width = '120px';
-   hubPulse.style.height = '120px';
-   requestAnimationFrame(() => {
-     hubPulse.style.transition = 'opacity 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out';
-     hubPulse.style.width = '180px';
-     hubPulse.style.height = '180px';
-     hubPulse.style.opacity = '0';
-   });
- }
+  function pulseCenter() {
+    hubPulse.style.transition = 'none';
+    hubPulse.style.opacity = '0.8';
+    hubPulse.style.width  = '120px';
+    hubPulse.style.height = '120px';
+    requestAnimationFrame(() => {
+      hubPulse.style.transition = 'opacity 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out';
+      hubPulse.style.width  = '180px';
+      hubPulse.style.height = '180px';
+      hubPulse.style.opacity = '0';
+    });
+  }
 
- function lightCard(i) {
-   cards[i].classList.add('lit');
- }
+  function lightCard(i) { cards[i].classList.add('lit'); }
+  function resetAll()    { cards.forEach(c => c.classList.remove('lit', 'flash')); }
 
- function resetAll() {
-   cards.forEach(c => c.classList.remove('lit', 'flash'));
- }
+  /* ---------- US map dot coords (% of hub container) ---------- */
+  // Roughly maps to US geography spread across the hub
+  const dotPositions = [
+    [22,28],[35,22],[48,25],[62,20],[75,25],[82,30],
+    [18,40],[30,38],[45,35],[55,32],[68,35],[78,38],
+    [25,50],[38,48],[50,45],[63,48],[72,50],[80,45],
+    [20,60],[34,58],[47,55],[60,58],[70,62],[76,55],
+    [28,68],[42,65],[55,70],[65,65],[73,70]
+  ];
 
- function runSequence() {
-   if (!running) return;
-   resetAll();
+  function clearProspectDots() {
+    prospectDots.forEach(d => d.remove());
+    prospectDots = [];
+  }
 
-   const waveDelay = 1800;  // time between each wave (longer so ring fully expands first)
-   const waveTravel = 950;  // time for wave to reach the card
+  function spawnProspectDots(cb) {
+    clearProspectDots();
+    const rect = hubEl.getBoundingClientRect();
+    const w = hubEl.offsetWidth;
+    const h = hubEl.offsetHeight;
 
-   // Sequentially fire waves 0-4
-   for (let i = 0; i < 5; i++) {
-     const t = i * waveDelay;
-     // Pulse center + send wave
-     timeouts.push(setTimeout(() => {
-       if (!running) return;
-       pulseCenter();
-       createWaveRing(hubEl);
-     }, t));
-     // Light up card when wave arrives
-     timeouts.push(setTimeout(() => {
-       if (!running) return;
-       lightCard(i);
-     }, t + waveTravel));
-   }
+    dotPositions.forEach((pos, i) => {
+      timeouts.push(setTimeout(() => {
+        if (!running) return;
+        const dot = document.createElement('div');
+        dot.className = 'prospect-dot ping';
+        dot.style.left = pos[0] + '%';
+        dot.style.top  = pos[1] + '%';
+        hubEl.appendChild(dot);
+        prospectDots.push(dot);
+        // After ping, keep it glowing
+        setTimeout(() => {
+          dot.classList.remove('ping');
+          dot.classList.add('visible');
+        }, 600);
+      }, i * 80));
+    });
 
-   // After all 5 are lit: hold for a beat, then flash sequence
-   const allLitTime = 4 * waveDelay + waveTravel + 1200;
-   timeouts.push(setTimeout(() => {
-     if (!running) return;
-     // Flash 3 times
-     let flashes = 0;
-     const flashId = setInterval(() => {
-       if (flashes % 2 === 0) {
-         cards.forEach(c => c.classList.add('flash'));
-       } else {
-         cards.forEach(c => c.classList.remove('flash'));
-       }
-       flashes++;
-       if (flashes >= 6) {
-         clearInterval(flashId);
-         // Fade out and restart
-         timeouts.push(setTimeout(() => {
-           resetAll();
-           // Pause, then go again
-           timeouts.push(setTimeout(() => runSequence(), 2000));
-         }, 400));
-       }
-     }, 250);
-   }, allLitTime));
- }
+    // All dots spawned — callback after last one
+    timeouts.push(setTimeout(() => { if(running && cb) cb(); }, dotPositions.length * 80 + 700));
+  }
 
- // Start/stop based on visibility
- const hubObserver = new IntersectionObserver((entries) => {
-   entries.forEach(e => {
-     if (e.isIntersecting && !running) {
-       running = true;
-       runSequence();
-     } else if (!e.isIntersecting && running) {
-       running = false;
-       clearTimeouts();
-       resetAll();
-     }
-   });
- }, { threshold: 0.25 });
- hubObserver.observe(hubEl);
+  function fireMessagePackets(cb) {
+    const hubW = hubEl.offsetWidth;
+    const hubH = hubEl.offsetHeight;
+    const centerX = 50; // percent
+    const centerY = 50;
+    const emojis = ['✉️','📱','💬','📧','📲'];
+    let count = 0;
+    const total = prospectDots.length;
+
+    prospectDots.forEach((dot, i) => {
+      timeouts.push(setTimeout(() => {
+        if (!running) return;
+        const pkt = document.createElement('div');
+        pkt.className = 'msg-packet';
+        pkt.textContent = emojis[i % emojis.length];
+        const dotLeft = parseFloat(dot.style.left);
+        const dotTop  = parseFloat(dot.style.top);
+        pkt.style.left = dotLeft + '%';
+        pkt.style.top  = dotTop  + '%';
+        // Vector toward center
+        const tx = ((centerX - dotLeft) * hubW / 100) * 0.7;
+        const ty = ((centerY - dotTop)  * hubH / 100) * 0.7;
+        pkt.style.setProperty('--tx', tx + 'px');
+        pkt.style.setProperty('--ty', ty + 'px');
+        pkt.style.animation = 'packet-fly 0.9s ease-in forwards';
+        hubEl.appendChild(pkt);
+        setTimeout(() => pkt.remove(), 950);
+        count++;
+        if (count === total && cb) {
+          setTimeout(cb, 1000);
+        }
+      }, i * 60));
+    });
+  }
+
+  /* ---------- main sequence ---------- */
+  function runSequence() {
+    if (!running) return;
+    resetAll();
+    clearProspectDots();
+
+    const waveDelay  = 1800;
+    const waveTravel = 950;
+
+    // Card 0: Prospecting — pause after lighting, spawn dots
+    timeouts.push(setTimeout(() => {
+      if (!running) return;
+      pulseCenter(); createWaveRing(hubEl);
+    }, 0));
+    timeouts.push(setTimeout(() => {
+      if (!running) return;
+      lightCard(0);
+      // Pause sequence and show prospect dots
+      spawnProspectDots(() => {
+        // Dots done — short hold then resume with card 1
+        resumeAfterProspecting();
+      });
+    }, waveTravel));
+
+    // resumeAfterProspecting fires card 1 (Outreach) then pauses for packets
+    function resumeAfterProspecting() {
+      if (!running) return;
+      timeouts.push(setTimeout(() => {
+        pulseCenter(); createWaveRing(hubEl);
+      }, 400));
+      timeouts.push(setTimeout(() => {
+        if (!running) return;
+        lightCard(1);
+        // Pause and fire message packets
+        fireMessagePackets(() => {
+          resumeAfterOutreach();
+        });
+      }, 400 + waveTravel));
+    }
+
+    function resumeAfterOutreach() {
+      if (!running) return;
+      // Cards 2, 3, 4 fire normally
+      [2, 3, 4].forEach((cardIdx, i) => {
+        const delay = (i + 1) * waveDelay;
+        timeouts.push(setTimeout(() => {
+          if (!running) return;
+          pulseCenter(); createWaveRing(hubEl);
+        }, delay));
+        timeouts.push(setTimeout(() => {
+          if (!running) return;
+          lightCard(cardIdx);
+        }, delay + waveTravel));
+      });
+
+      // After all 5 lit: flash then reset
+      const allLitTime = 3 * waveDelay + waveTravel + 1200;
+      timeouts.push(setTimeout(() => {
+        if (!running) return;
+        let flashes = 0;
+        const flashId = setInterval(() => {
+          if (flashes % 2 === 0) cards.forEach(c => c.classList.add('flash'));
+          else                    cards.forEach(c => c.classList.remove('flash'));
+          flashes++;
+          if (flashes >= 6) {
+            clearInterval(flashId);
+            timeouts.push(setTimeout(() => {
+              resetAll();
+              clearProspectDots();
+              timeouts.push(setTimeout(() => runSequence(), 2000));
+            }, 400));
+          }
+        }, 250);
+      }, allLitTime));
+    }
+  }
+
+  /* ---------- visibility observer ---------- */
+  const hubObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting && !running) {
+        running = true;
+        runSequence();
+      } else if (!e.isIntersecting && running) {
+        running = false;
+        clearTimeouts();
+        resetAll();
+        clearProspectDots();
+      }
+    });
+  }, { threshold: 0.25 });
+  hubObserver.observe(hubEl);
 })();
 
 /* ─── FAQ ACCORDION ─── */
