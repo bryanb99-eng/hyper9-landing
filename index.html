@@ -217,13 +217,13 @@
  /* ─── SOLUTION / WAVE HUB ─── */
  .solution-wrap {
    background: linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(10,10,15,1) 30%, rgba(10,10,15,1) 70%, rgba(6,6,8,0) 100%);
-   padding: 7rem 2rem; position: relative; z-index: 1;
+   padding: 5rem 2rem; position: relative; z-index: 1; overflow: visible; min-height: 100vh; display: flex; align-items: center;
  }
  .solution-wrap .inner { max-width: 1100px; margin: 0 auto; text-align: center; }
  .solution-wrap .subtitle { margin: 0 auto 4rem; }
 
  .hub-container {
-   position: relative; width: 100%; max-width: 680px;
+   position: relative; width: 100%; max-width: 560px;
    margin: 0 auto; aspect-ratio: 1;
  }
 
@@ -607,7 +607,7 @@
 </section>
 
 <!-- PROBLEM -->
-<div class="problem-wrap">
+<div class="problem-wrap" id="problem">
  <div class="inner">
    <div class="section-label reveal">The Problem</div>
    <h2 class="reveal">You're great at closing loans.<br>The pipeline is the problem.</h2>
@@ -690,7 +690,7 @@
 </div>
 
 <!-- STATS -->
-<div id="stats">
+<div id="results">
  <div class="inner stagger">
    <div class="stat-item reveal" style="--i:0"><div class="stat-number" data-target="10" data-suffix="+">0+</div><div class="stat-label">Active Realtor partners<br>targeted monthly</div></div>
    <div class="stat-item reveal" style="--i:1"><div class="stat-number" data-target="50" data-suffix="+">0+</div><div class="stat-label">Targeted outreach<br>touches per day</div></div>
