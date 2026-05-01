@@ -994,6 +994,7 @@ statsObserver.observe(document.getElementById('results'));
    ═══════════════════════════════════════════════ */
 (function() {
   const hubEl    = document.getElementById('hub');
+  const mapPanel  = document.getElementById('map-panel');
   const hubPulse = document.getElementById('hub-pulse');
   const cards    = Array.from(document.querySelectorAll('.feature-card'));
   const lines    = ['line-0','line-1','line-2','line-3','line-4'].map(id => document.getElementById(id));
@@ -1051,7 +1052,7 @@ statsObserver.observe(document.getElementById('results'));
         dot.className = 'prospect-dot ping';
         dot.style.left = pos[0] + '%';
         dot.style.top  = pos[1] + '%';
-        hubEl.appendChild(dot);
+        mapPanel.appendChild(dot);
         prospectDots.push(dot);
         setTimeout(() => { dot.classList.remove('ping'); dot.classList.add('visible'); }, 600);
       }, i * 60));
@@ -1061,7 +1062,7 @@ statsObserver.observe(document.getElementById('results'));
 
   function fireMessagePackets(cb) {
     const rect = document.getElementById('fc-1').getBoundingClientRect();
-    const hubRect = hubEl.getBoundingClientRect();
+    const hubRect = mapPanel.getBoundingClientRect();
     const centerX = (rect.left + rect.width/2 - hubRect.left) / hubRect.width * 100;
     const centerY = (rect.top + rect.height/2 - hubRect.top) / hubRect.height * 100;
     const emojis = ['✉️','📱','💬','📧','📲'];
@@ -1145,7 +1146,7 @@ statsObserver.observe(document.getElementById('results'));
       else if (!e.isIntersecting && running) { running = false; clearTimeouts(); resetAll(); }
     });
   }, { threshold: 0.2 });
-  hubObserver.observe(hubEl);
+  hubObserver.observe(document.getElementById('hub'));
 })();
 
 /* ─── FAQ ACCORDION ─── */
