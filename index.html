@@ -1089,6 +1089,34 @@ statsObserver.observe(document.getElementById('results'));
     });
   }
 
+  function spawnEmojiBurst(emojis, container, cb) {
+    const rect = container.getBoundingClientRect();
+    const count = 12;
+    for (let i = 0; i < count; i++) {
+      timeouts.push(setTimeout(() => {
+        if (!running) return;
+        const el = document.createElement('div');
+        el.style.cssText = `position:absolute;font-size:16px;pointer-events:none;z-index:10;opacity:1;`;
+        // Random start position across map
+        const sx = 10 + Math.random() * 80;
+        const sy = 10 + Math.random() * 80;
+        el.style.left = sx + '%';
+        el.style.top = sy + '%';
+        el.textContent = emojis[i % emojis.length];
+        container.appendChild(el);
+        // Animate: float up and fade
+        const tx = (Math.random() - 0.5) * 80;
+        const ty = -(40 + Math.random() * 60);
+        el.animate([
+          { opacity: 1, transform: 'translate(0,0) scale(1)' },
+          { opacity: 0, transform: `translate(${tx}px,${ty}px) scale(1.4)` }
+        ], { duration: 1200, easing: 'ease-out', fill: 'forwards' });
+        setTimeout(() => el.remove(), 1250);
+      }, i * 80));
+    }
+    if (cb) timeouts.push(setTimeout(cb, count * 80 + 1300));
+  }
+
   function runSequence() {
     if (!running) return;
     resetAll();
@@ -1111,14 +1139,27 @@ statsObserver.observe(document.getElementById('results'));
           if (!running) return;
           lightCard(1);
           fireMessagePackets(() => {
-            // Cards 2,3,4 sequentially
-            [2,3,4].forEach((idx, i) => {
-              timeouts.push(setTimeout(() => {
-                if (!running) return;
-                pulseCenter();
-                lightCard(idx);
-              }, (i+1) * 1400));
-            });
+            // Card 2: Nurture
+            timeouts.push(setTimeout(() => {
+              if (!running) return;
+              lightCard(2);
+              spawnEmojiBurst(['🎁','💌','📩','🤝','💐'], mapPanel, () => {});
+            }, 1400));
+
+            // Card 3: Booking
+            timeouts.push(setTimeout(() => {
+              if (!running) return;
+              lightCard(3);
+              spawnEmojiBurst(['📅','🗓️','✅','📆','🤙'], mapPanel, () => {});
+            }, 2800));
+
+            // Card 4: Reporting
+            timeouts.push(setTimeout(() => {
+              if (!running) return;
+              lightCard(4);
+              spawnEmojiBurst(['📊','📈','💹','📉','🔢'], mapPanel, () => {});
+            }, 4200));
+
             // All lit — flash then reset
             timeouts.push(setTimeout(() => {
               if (!running) return;
@@ -1129,13 +1170,11 @@ statsObserver.observe(document.getElementById('results'));
                   clearInterval(fid);
                   timeouts.push(setTimeout(() => {
                     resetAll();
-                    if(trunk) trunk.style.stroke = 'rgba(192,22,44,0.25)';
-                    if(bar) bar.style.stroke = 'rgba(192,22,44,0.25)';
                     timeouts.push(setTimeout(() => runSequence(), 2000));
                   }, 400));
                 }
               }, 260);
-            }, 3*1400 + 1200));
+            }, 5600));
           });
         }, 600));
       });
