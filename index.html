@@ -223,7 +223,7 @@
  .solution-wrap .subtitle { margin: 0 auto 4rem; }
 
  .hub-container {
-   position: relative; width: 100%; max-width: 460px;
+   position: relative; width: 100%; max-width: 460px; margin-top: 2rem;
    margin: 0 auto; aspect-ratio: 1;
  }
 
@@ -978,11 +978,32 @@ statsObserver.observe(document.getElementById('results'));
   /* ---------- US map dot coords (% of hub container) ---------- */
   // Roughly maps to US geography spread across the hub
   const dotPositions = [
-    [22,28],[35,22],[48,25],[62,20],[75,25],[82,30],
-    [18,40],[30,38],[45,35],[55,32],[68,35],[78,38],
-    [25,50],[38,48],[50,45],[63,48],[72,50],[80,45],
-    [20,60],[34,58],[47,55],[60,58],[70,62],[76,55],
-    [28,68],[42,65],[55,70],[65,65],[73,70]
+    // Pacific Northwest
+    [8,18],[12,25],[7,32],
+    // California
+    [6,38],[8,48],[7,58],[10,65],
+    // Southwest / Nevada / Arizona
+    [14,40],[18,52],[16,62],[22,68],
+    // Rocky Mountain
+    [22,28],[26,38],[24,50],[28,60],
+    // Plains / Midwest North
+    [34,18],[40,22],[46,20],[52,18],
+    // Plains / Midwest Mid
+    [36,32],[42,35],[48,33],[54,30],
+    // Plains / Midwest South
+    [38,48],[44,50],[50,48],[56,45],
+    // Great Lakes
+    [60,22],[65,18],[70,22],[74,28],
+    // Southeast
+    [62,52],[68,58],[72,64],[76,70],
+    // Mid-Atlantic / Northeast
+    [82,20],[86,26],[84,34],[88,40],
+    // South Central
+    [44,65],[52,68],[58,65],[64,70],
+    // Texas
+    [32,60],[36,68],[42,72],[48,75],
+    // Florida
+    [74,78],[78,82],[72,86]
   ];
 
   function clearProspectDots() {
