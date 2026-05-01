@@ -222,98 +222,144 @@
  .solution-wrap .inner { max-width: 1100px; margin: 0 auto; text-align: center; }
  .solution-wrap .subtitle { margin: 0 auto 4rem; }
 
- .hub-container {
-   position: relative; width: 100%; max-width: 460px; margin-top: 2rem;
-   margin: 0 auto; aspect-ratio: 1;
- }
+ /* ─── ORG CHART LAYOUT ─── */
+.hub-container {
+  position: relative; width: 100%; max-width: 860px;
+  margin: 0 auto; padding: 2rem 1rem 3rem;
+}
 
- /* Center AI Employee */
- .hub-center {
-   position: absolute; top: 50%; left: 50%;
-   transform: translate(-50%, -50%);
-   width: 120px; height: 120px; border-radius: 50%;
-   background: radial-gradient(circle, rgba(20,5,10,1) 0%, rgba(10,10,15,1) 100%);
-   border: 1.5px solid rgba(192,22,44,0.5);
-   box-shadow: 0 0 50px rgba(192,22,44,0.2), 0 0 100px rgba(192,22,44,0.08), inset 0 0 30px rgba(192,22,44,0.05);
-   display: flex; flex-direction: column; align-items: center; justify-content: center;
-   z-index: 20;
-   animation: hub-breathe 3s ease-in-out infinite;
- }
- @keyframes hub-breathe {
-   0%, 100% { box-shadow: 0 0 50px rgba(192,22,44,0.2), 0 0 100px rgba(192,22,44,0.08); }
-   50% { box-shadow: 0 0 80px rgba(192,22,44,0.35), 0 0 150px rgba(192,22,44,0.15); }
- }
- .hub-center svg { width: 32px; height: 32px; stroke: var(--red); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
- .hub-center .hub-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 1.5px; color: var(--red); text-transform: uppercase; margin-top: 0.4rem; }
- /* Scale Thinkrr widget to fit hub circle */
- .hub-center [data-widget-key] { transform: scale(0.42); transform-origin: center; }
+/* AI Agent top circle */
+.hub-center {
+  position: relative; width: 110px; height: 110px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(20,5,10,1) 0%, rgba(10,10,15,1) 100%);
+  border: 2px solid rgba(192,22,44,0.7);
+  box-shadow: 0 0 40px rgba(192,22,44,0.25), 0 0 80px rgba(192,22,44,0.1);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  margin: 0 auto; z-index: 20;
+  animation: hub-breathe 3s ease-in-out infinite;
+}
+@keyframes hub-breathe {
+  0%,100% { box-shadow: 0 0 40px rgba(192,22,44,0.25), 0 0 80px rgba(192,22,44,0.1); }
+  50%      { box-shadow: 0 0 70px rgba(192,22,44,0.4),  0 0 140px rgba(192,22,44,0.2); }
+}
+.hub-center svg { width: 26px; height: 26px; stroke: var(--red); fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.hub-center .hub-label { font-size: 0.55rem; font-weight: 700; letter-spacing: 1.5px; color: var(--red); text-transform: uppercase; margin-top: 0.3rem; }
 
- /* Hub pulse — the big center glow that fires before each wave */
- .hub-pulse {
-   position: absolute; top: 50%; left: 50%;
-   width: 120px; height: 120px; border-radius: 50%;
-   transform: translate(-50%, -50%);
-   background: radial-gradient(circle, rgba(192,22,44,0.3), transparent 70%);
-   z-index: 15; pointer-events: none; opacity: 0;
- }
+/* Connector lines */
+.hub-connectors {
+  position: relative; width: 100%; height: 60px; margin: 0 auto;
+  max-width: 760px;
+}
+.hub-connectors svg { width: 100%; height: 100%; overflow: visible; }
 
- /* Wave ripple ring — thin circle, starts at hub size, expands */
- .wave-ring {
-   position: absolute; top: 50%; left: 50%;
-   width: 120px; height: 120px;
-   border-radius: 50%;
-   border: 1.5px solid rgba(192,22,44,0.6);
-   transform: translate(-50%, -50%);
-   z-index: 8; pointer-events: none; opacity: 0;
- }
+/* Function circles row */
+.hub-nodes {
+  display: flex; justify-content: space-around; align-items: flex-start;
+  width: 100%; max-width: 800px; margin: 0 auto; gap: 0.5rem;
+}
+.feature-card {
+  display: flex; flex-direction: column; align-items: center;
+  width: 110px; padding: 1rem 0.5rem 0.8rem;
+  background: rgba(12,12,16,0.85);
+  border: 1.5px solid rgba(255,255,255,0.05);
+  border-radius: 50%; aspect-ratio: 1;
+  text-align: center;
+  transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+  backdrop-filter: blur(10px);
+  opacity: 0.3; cursor: default;
+  justify-content: center;
+}
+.feature-card.lit {
+  opacity: 1;
+  border-color: rgba(192,22,44,0.6);
+  box-shadow: 0 0 30px rgba(192,22,44,0.2), 0 0 60px rgba(192,22,44,0.08);
+}
+.feature-card.flash {
+  box-shadow: 0 0 50px rgba(192,22,44,0.4), 0 0 100px rgba(192,22,44,0.2) !important;
+  border-color: rgba(192,22,44,0.9) !important;
+}
+.feature-card svg {
+  width: 20px; height: 20px; stroke: var(--red); fill: none;
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  margin-bottom: 0.25rem; opacity: 0.3; transition: opacity 0.5s;
+}
+.feature-card.lit svg { opacity: 1; filter: drop-shadow(0 0 5px rgba(192,22,44,0.5)); }
+.feature-card .spoke-label {
+  font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.8px; color: var(--red); opacity: 0.4; transition: opacity 0.5s;
+  margin-top: 0.1rem;
+}
+.feature-card.lit .spoke-label { opacity: 1; }
+.feature-card .spoke-desc {
+  font-size: 0.55rem; color: var(--muted); margin-top: 0.2rem;
+  line-height: 1.3; opacity: 0; transition: opacity 0.5s; display: none;
+}
+.feature-card.lit .spoke-desc { opacity: 0; }
 
+/* Hub pulse */
+.hub-pulse {
+  position: absolute; top: 50%; left: 50%;
+  width: 110px; height: 110px; border-radius: 50%;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(192,22,44,0.3), transparent 70%);
+  pointer-events: none; opacity: 0;
+}
 
+/* Wave ring (reused) */
+.wave-ring {
+  position: absolute; border-radius: 50%;
+  border: 1.5px solid rgba(192,22,44,0.6);
+  top: 50%; left: 50%; width: 110px; height: 110px;
+  transform: translate(-50%,-50%);
+  pointer-events: none; opacity: 0; z-index: 5;
+}
 
- /* Feature cards */
- .feature-card {
-   position: absolute; width: 105px;
-   background: rgba(12,12,16,0.85);
-   border: 1px solid rgba(255,255,255,0.04);
-   border-radius: 14px; padding: 0.9rem;
-   text-align: center; transform: translate(-50%, -50%);
-   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-   backdrop-filter: blur(10px);
-   z-index: 10; opacity: 0.4;
- }
- .feature-card.lit {
-   opacity: 1;
-   border-color: rgba(192,22,44,0.5);
-   box-shadow: 0 0 25px rgba(192,22,44,0.12), 0 0 50px rgba(192,22,44,0.05);
- }
- .feature-card.flash {
-   box-shadow: 0 0 40px rgba(192,22,44,0.3), 0 0 80px rgba(192,22,44,0.15) !important;
-   border-color: rgba(192,22,44,0.8) !important;
- }
- .feature-card svg {
-   width: 22px; height: 22px; stroke: var(--red); fill: none;
-   stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
-   margin-bottom: 0.3rem; opacity: 0.3; transition: opacity 0.5s;
- }
- .feature-card.lit svg { opacity: 1; filter: drop-shadow(0 0 6px rgba(192,22,44,0.4)); }
- .feature-card .spoke-label {
-   font-size: 0.65rem; font-weight: 700; text-transform: uppercase;
-   letter-spacing: 1px; color: var(--red); opacity: 0.3; transition: opacity 0.5s;
- }
- .feature-card.lit .spoke-label { opacity: 1; }
- .feature-card .spoke-desc {
-   font-size: 0.62rem; color: var(--muted); margin-top: 0.25rem;
-   line-height: 1.4; opacity: 0; transition: opacity 0.5s;
- }
- .feature-card.lit .spoke-desc { opacity: 1; }
+/* Connector line active state */
+.hub-line { transition: stroke 0.5s, opacity 0.5s; }
+.hub-line.lit { stroke: #c0162c !important; opacity: 1 !important; }
 
- /* Card positions — evenly spaced pentagon */
- .fc-0 { top: 8%;   left: 50%; }
- .fc-1 { top: 32%;  left: 92%; }
- .fc-2 { top: 78%;  left: 78%; }
- .fc-3 { top: 78%;  left: 22%; }
- .fc-4 { top: 32%;  left: 8%;  }
+/* Prospect dots - now positioned relative to full section */
+.prospect-dot {
+  position: absolute;
+  width: 7px; height: 7px;
+  background: #c0162c;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 5;
+  opacity: 0;
+  box-shadow: 0 0 8px #c0162c, 0 0 16px rgba(192,22,44,0.5);
+  transform: translate(-50%, -50%);
+}
+.prospect-dot.visible { opacity: 1; }
+.prospect-dot.ping { animation: dot-ping 0.6s ease-out forwards; }
+@keyframes dot-ping {
+  0%   { transform: translate(-50%,-50%) scale(0); opacity: 1; }
+  60%  { transform: translate(-50%,-50%) scale(2); opacity: 0.9; }
+  100% { transform: translate(-50%,-50%) scale(1); opacity: 1; }
+}
+.msg-packet {
+  position: absolute; pointer-events: none; z-index: 6;
+  opacity: 0; font-size: 13px;
+}
+@keyframes packet-fly {
+  0%   { opacity: 1; transform: translate(0,0) scale(1); }
+  80%  { opacity: 0.7; }
+  100% { opacity: 0; transform: translate(var(--tx),var(--ty)) scale(0.2); }
+}
 
- /* ─── STATS ─── */
+@media (max-width: 768px) {
+  .feature-card { width: 80px; }
+  .hub-center { width: 85px; height: 85px; }
+  .hub-container { max-width: 100%; padding: 1rem 0.5rem 2rem; }
+}
+@media (max-width: 480px) {
+  .feature-card { width: 64px; }
+  .feature-card svg { width: 16px; height: 16px; }
+  .hub-center { width: 70px; height: 70px; }
+}
+
+/* ─── STATS ─── */
+/* ─── STATS ─── */
  #results {
    max-width: 100%; padding: 5rem 2rem; position: relative; z-index: 1;
    background: linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(12,5,8,0.4) 50%, rgba(6,6,8,0) 100%);
@@ -701,52 +747,62 @@
    <div class="section-label reveal">The Solution</div>
    <h2 class="reveal">Meet Your AI Outreach Machine</h2>
    <p class="subtitle reveal">Five functions. One system. Running 24/7 so you never have to cold outreach again.</p>
-   <div class="hub-container reveal-scale" id="hub">
-     <!-- Prospect dots canvas -->
-     <canvas id="prospect-canvas" style="position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;"></canvas>
+   <div class="hub-container" id="hub" style="position:relative;">
+     <!-- Prospect dots get appended here by JS -->
 
-
-
-     <!-- Center hub pulse overlay -->
-     <div class="hub-pulse" id="hub-pulse"></div>
-
-     <!-- Center hub with Thinkrr Voice AI -->
-     <div class="hub-center" style="overflow:hidden;">
-       <svg viewBox="0 0 24 24" style="width:28px;height:28px;stroke:#c0162c;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-       <div class="hub-label">Voice AI</div>
+     <!-- AI Agent top circle -->
+     <div style="position:relative;z-index:20;">
+       <div class="hub-center" id="hub-center">
+         <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+         <div class="hub-label">AI Agent</div>
+       </div>
+       <div class="hub-pulse" id="hub-pulse"></div>
      </div>
 
-     <!-- Feature cards -->
-     <div class="feature-card fc-0" data-index="0">
-       <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
-       <div class="spoke-label">Prospecting</div>
-       <div class="spoke-desc">Finds the right Realtors daily</div>
-     </div>
-     <div class="feature-card fc-1" data-index="1">
-       <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-       <div class="spoke-label">Outreach</div>
-       <div class="spoke-desc">Personalized conversations at scale</div>
-     </div>
-     <div class="feature-card fc-2" data-index="2">
-       <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-       <div class="spoke-label">Nurture</div>
-       <div class="spoke-desc">Follows up until they're ready</div>
-     </div>
-     <div class="feature-card fc-3" data-index="3">
-       <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
-       <div class="spoke-label">Booking</div>
-       <div class="spoke-desc">Qualified Realtors on your calendar</div>
-     </div>
-     <div class="feature-card fc-4" data-index="4">
-       <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="3" y1="20" x2="21" y2="20"/></svg>
-       <div class="spoke-label">Reporting</div>
-       <div class="spoke-desc">See exactly what's working</div>
+     <!-- SVG connector lines -->
+     <div class="hub-connectors">
+       <svg id="hub-svg" viewBox="0 0 800 60" preserveAspectRatio="none">
+         <!-- Vertical drop from center -->
+         <line class="hub-line" id="line-trunk" x1="400" y1="0" x2="400" y2="30" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <!-- Horizontal bar -->
+         <line class="hub-line" id="line-bar" x1="80" y1="30" x2="720" y2="30" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <!-- Drops to each node (5 evenly spaced: 80,240,400,560,720) -->
+         <line class="hub-line" id="line-0" x1="80"  y1="30" x2="80"  y2="60" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <line class="hub-line" id="line-1" x1="240" y1="30" x2="240" y2="60" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <line class="hub-line" id="line-2" x1="400" y1="30" x2="400" y2="60" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <line class="hub-line" id="line-3" x1="560" y1="30" x2="560" y2="60" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <line class="hub-line" id="line-4" x1="720" y1="30" x2="720" y2="60" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+       </svg>
      </div>
 
+     <!-- 5 function circles in a row -->
+     <div class="hub-nodes">
+       <div class="feature-card" data-index="0" id="fc-0">
+         <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/></svg>
+         <div class="spoke-label">Prospecting</div>
+       </div>
+       <div class="feature-card" data-index="1" id="fc-1">
+         <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+         <div class="spoke-label">Outreach</div>
+       </div>
+       <div class="feature-card" data-index="2" id="fc-2">
+         <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+         <div class="spoke-label">Nurture</div>
+       </div>
+       <div class="feature-card" data-index="3" id="fc-3">
+         <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+         <div class="spoke-label">Booking</div>
+       </div>
+       <div class="feature-card" data-index="4" id="fc-4">
+         <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="3" y1="20" x2="21" y2="20"/></svg>
+         <div class="spoke-label">Reporting</div>
+       </div>
+     </div>
    </div>
  </div>
 </div>
 
+<!-- STATS -->
 <!-- STATS -->
 <div id="results">
  <div class="inner stagger">
@@ -927,82 +983,50 @@ const statsObserver = new IntersectionObserver((entries) => {
 statsObserver.observe(document.getElementById('results'));
 
 /* ═══════════════════════════════════════════════
-   WAVE ACTIVATION SEQUENCE + MAP ANIMATIONS
+   ORG CHART SEQUENCE + MAP ANIMATIONS
    ═══════════════════════════════════════════════ */
 (function() {
   const hubEl    = document.getElementById('hub');
   const hubPulse = document.getElementById('hub-pulse');
   const cards    = Array.from(document.querySelectorAll('.feature-card'));
-  const canvas   = document.getElementById('prospect-canvas');
+  const lines    = ['line-0','line-1','line-2','line-3','line-4'].map(id => document.getElementById(id));
+  const trunk    = document.getElementById('line-trunk');
+  const bar      = document.getElementById('line-bar');
 
-  let running  = false;
-  let timeouts = [];
-  let prospectDots = [];
+  let running = false, timeouts = [], prospectDots = [];
 
   function clearTimeouts() { timeouts.forEach(clearTimeout); timeouts = []; }
-
-  /* ---------- helpers ---------- */
-  function createWaveRing(container) {
-    const ring = document.createElement('div');
-    ring.className = 'wave-ring';
-    container.appendChild(ring);
-    const size = container.offsetWidth * 0.95;
-    requestAnimationFrame(() => {
-      ring.style.opacity = '0.7';
-      requestAnimationFrame(() => {
-        ring.style.transition = 'width 1.3s cubic-bezier(0.25,0.46,0.45,0.94), height 1.3s cubic-bezier(0.25,0.46,0.45,0.94), opacity 1.4s ease-out';
-        ring.style.width  = size + 'px';
-        ring.style.height = size + 'px';
-        ring.style.opacity = '0';
-      });
-    });
-    timeouts.push(setTimeout(() => ring.remove(), 1600));
-  }
 
   function pulseCenter() {
     hubPulse.style.transition = 'none';
     hubPulse.style.opacity = '0.8';
-    hubPulse.style.width  = '120px';
-    hubPulse.style.height = '120px';
+    hubPulse.style.width = '110px'; hubPulse.style.height = '110px';
     requestAnimationFrame(() => {
-      hubPulse.style.transition = 'opacity 0.5s ease-out, width 0.5s ease-out, height 0.5s ease-out';
-      hubPulse.style.width  = '180px';
-      hubPulse.style.height = '180px';
+      hubPulse.style.transition = 'opacity 0.6s ease-out, width 0.6s ease-out, height 0.6s ease-out';
+      hubPulse.style.width = '180px'; hubPulse.style.height = '180px';
       hubPulse.style.opacity = '0';
     });
   }
 
-  function lightCard(i) { cards[i].classList.add('lit'); }
-  function resetAll()    { cards.forEach(c => c.classList.remove('lit', 'flash')); }
+  function lightCard(i) {
+    cards[i].classList.add('lit');
+    if (lines[i]) lines[i].style.stroke = 'rgba(192,22,44,0.8)';
+  }
 
-  /* ---------- US map dot coords (% of hub container) ---------- */
-  // Roughly maps to US geography spread across the hub
+  function resetAll() {
+    cards.forEach(c => c.classList.remove('lit','flash'));
+    lines.forEach(l => { if(l) l.style.stroke = 'rgba(192,22,44,0.25)'; });
+    clearProspectDots();
+  }
+
+  /* ---------- Dot positions across the US map ---------- */
   const dotPositions = [
-    // Pacific Northwest
-    [8,18],[12,25],[7,32],
-    // California
-    [6,38],[8,48],[7,58],[10,65],
-    // Southwest / Nevada / Arizona
-    [14,40],[18,52],[16,62],[22,68],
-    // Rocky Mountain
-    [22,28],[26,38],[24,50],[28,60],
-    // Plains / Midwest North
-    [34,18],[40,22],[46,20],[52,18],
-    // Plains / Midwest Mid
-    [36,32],[42,35],[48,33],[54,30],
-    // Plains / Midwest South
-    [38,48],[44,50],[50,48],[56,45],
-    // Great Lakes
-    [60,22],[65,18],[70,22],[74,28],
-    // Southeast
-    [62,52],[68,58],[72,64],[76,70],
-    // Mid-Atlantic / Northeast
-    [82,20],[86,26],[84,34],[88,40],
-    // South Central
-    [44,65],[52,68],[58,65],[64,70],
-    // Texas
-    [32,60],[36,68],[42,72],[48,75],
-    // Florida
+    [8,18],[12,25],[7,32],[6,38],[8,48],[7,58],[10,65],
+    [14,40],[18,52],[16,62],[22,68],[22,28],[26,38],[24,50],[28,60],
+    [34,18],[40,22],[46,20],[52,18],[36,32],[42,35],[48,33],[54,30],
+    [38,48],[44,50],[50,48],[56,45],[60,22],[65,18],[70,22],[74,28],
+    [62,52],[68,58],[72,64],[76,70],[82,20],[86,26],[84,34],[88,40],
+    [44,65],[52,68],[58,65],[64,70],[32,60],[36,68],[42,72],[48,75],
     [74,78],[78,82],[72,86]
   ];
 
@@ -1013,10 +1037,6 @@ statsObserver.observe(document.getElementById('results'));
 
   function spawnProspectDots(cb) {
     clearProspectDots();
-    const rect = hubEl.getBoundingClientRect();
-    const w = hubEl.offsetWidth;
-    const h = hubEl.offsetHeight;
-
     dotPositions.forEach((pos, i) => {
       timeouts.push(setTimeout(() => {
         if (!running) return;
@@ -1026,144 +1046,98 @@ statsObserver.observe(document.getElementById('results'));
         dot.style.top  = pos[1] + '%';
         hubEl.appendChild(dot);
         prospectDots.push(dot);
-        // After ping, keep it glowing
-        setTimeout(() => {
-          dot.classList.remove('ping');
-          dot.classList.add('visible');
-        }, 600);
-      }, i * 80));
+        setTimeout(() => { dot.classList.remove('ping'); dot.classList.add('visible'); }, 600);
+      }, i * 60));
     });
-
-    // All dots spawned — callback after last one
-    timeouts.push(setTimeout(() => { if(running && cb) cb(); }, dotPositions.length * 80 + 700));
+    timeouts.push(setTimeout(() => { if(running && cb) cb(); }, dotPositions.length * 60 + 600));
   }
 
   function fireMessagePackets(cb) {
-    const hubW = hubEl.offsetWidth;
-    const hubH = hubEl.offsetHeight;
-    const centerX = 50; // percent
-    const centerY = 50;
+    const rect = document.getElementById('fc-1').getBoundingClientRect();
+    const hubRect = hubEl.getBoundingClientRect();
+    const centerX = (rect.left + rect.width/2 - hubRect.left) / hubRect.width * 100;
+    const centerY = (rect.top + rect.height/2 - hubRect.top) / hubRect.height * 100;
     const emojis = ['✉️','📱','💬','📧','📲'];
     let count = 0;
-    const total = prospectDots.length;
-
     prospectDots.forEach((dot, i) => {
       timeouts.push(setTimeout(() => {
         if (!running) return;
         const pkt = document.createElement('div');
         pkt.className = 'msg-packet';
         pkt.textContent = emojis[i % emojis.length];
-        const dotLeft = parseFloat(dot.style.left);
-        const dotTop  = parseFloat(dot.style.top);
-        pkt.style.left = dotLeft + '%';
-        pkt.style.top  = dotTop  + '%';
-        // Vector toward center
-        const tx = ((centerX - dotLeft) * hubW / 100) * 0.7;
-        const ty = ((centerY - dotTop)  * hubH / 100) * 0.7;
+        const dl = parseFloat(dot.style.left), dt = parseFloat(dot.style.top);
+        pkt.style.left = dl + '%'; pkt.style.top = dt + '%';
+        const tx = (centerX - dl) * hubRect.width / 100 * 0.7;
+        const ty = (centerY - dt) * hubRect.height / 100 * 0.7;
         pkt.style.setProperty('--tx', tx + 'px');
         pkt.style.setProperty('--ty', ty + 'px');
-        pkt.style.animation = 'packet-fly 0.9s ease-in forwards';
+        pkt.style.animation = 'packet-fly 1s ease-in forwards';
         hubEl.appendChild(pkt);
-        setTimeout(() => pkt.remove(), 950);
-        count++;
-        if (count === total && cb) {
-          setTimeout(cb, 1000);
-        }
-      }, i * 60));
+        setTimeout(() => pkt.remove(), 1050);
+        if (++count === prospectDots.length && cb) setTimeout(cb, 1100);
+      }, i * 50));
     });
   }
 
-  /* ---------- main sequence ---------- */
   function runSequence() {
     if (!running) return;
     resetAll();
-    clearProspectDots();
 
-    const waveDelay  = 1800;
-    const waveTravel = 950;
-
-    // Card 0: Prospecting — pause after lighting, spawn dots
+    // Light trunk + bar first
     timeouts.push(setTimeout(() => {
       if (!running) return;
-      pulseCenter(); createWaveRing(hubEl);
-    }, 0));
+      if(trunk) trunk.style.stroke = 'rgba(192,22,44,0.8)';
+      if(bar)   bar.style.stroke   = 'rgba(192,22,44,0.8)';
+      pulseCenter();
+    }, 300));
+
+    // Card 0: Prospecting — light, spawn dots
     timeouts.push(setTimeout(() => {
       if (!running) return;
       lightCard(0);
-      // Pause sequence and show prospect dots
       spawnProspectDots(() => {
-        // Dots done — short hold then resume with card 1
-        resumeAfterProspecting();
-      });
-    }, waveTravel));
-
-    // resumeAfterProspecting fires card 1 (Outreach) then pauses for packets
-    function resumeAfterProspecting() {
-      if (!running) return;
-      timeouts.push(setTimeout(() => {
-        pulseCenter(); createWaveRing(hubEl);
-      }, 400));
-      timeouts.push(setTimeout(() => {
-        if (!running) return;
-        lightCard(1);
-        // Pause and fire message packets
-        fireMessagePackets(() => {
-          resumeAfterOutreach();
-        });
-      }, 400 + waveTravel));
-    }
-
-    function resumeAfterOutreach() {
-      if (!running) return;
-      // Cards 2, 3, 4 fire normally
-      [2, 3, 4].forEach((cardIdx, i) => {
-        const delay = (i + 1) * waveDelay;
+        // Card 1: Outreach — fire packets
         timeouts.push(setTimeout(() => {
           if (!running) return;
-          pulseCenter(); createWaveRing(hubEl);
-        }, delay));
-        timeouts.push(setTimeout(() => {
-          if (!running) return;
-          lightCard(cardIdx);
-        }, delay + waveTravel));
-      });
-
-      // After all 5 lit: flash then reset
-      const allLitTime = 3 * waveDelay + waveTravel + 1200;
-      timeouts.push(setTimeout(() => {
-        if (!running) return;
-        let flashes = 0;
-        const flashId = setInterval(() => {
-          if (flashes % 2 === 0) cards.forEach(c => c.classList.add('flash'));
-          else                    cards.forEach(c => c.classList.remove('flash'));
-          flashes++;
-          if (flashes >= 6) {
-            clearInterval(flashId);
+          lightCard(1);
+          fireMessagePackets(() => {
+            // Cards 2,3,4 sequentially
+            [2,3,4].forEach((idx, i) => {
+              timeouts.push(setTimeout(() => {
+                if (!running) return;
+                pulseCenter();
+                lightCard(idx);
+              }, (i+1) * 1400));
+            });
+            // All lit — flash then reset
             timeouts.push(setTimeout(() => {
-              resetAll();
-              clearProspectDots();
-              timeouts.push(setTimeout(() => runSequence(), 2000));
-            }, 400));
-          }
-        }, 250);
-      }, allLitTime));
-    }
+              if (!running) return;
+              let f = 0;
+              const fid = setInterval(() => {
+                cards.forEach(c => c.classList[f%2===0?'add':'remove']('flash'));
+                if (++f >= 6) {
+                  clearInterval(fid);
+                  timeouts.push(setTimeout(() => {
+                    resetAll();
+                    if(trunk) trunk.style.stroke = 'rgba(192,22,44,0.25)';
+                    if(bar) bar.style.stroke = 'rgba(192,22,44,0.25)';
+                    timeouts.push(setTimeout(() => runSequence(), 2000));
+                  }, 400));
+                }
+              }, 260);
+            }, 3*1400 + 1200));
+          });
+        }, 600));
+      });
+    }, 1200));
   }
 
-  /* ---------- visibility observer ---------- */
   const hubObserver = new IntersectionObserver((entries) => {
     entries.forEach(e => {
-      if (e.isIntersecting && !running) {
-        running = true;
-        runSequence();
-      } else if (!e.isIntersecting && running) {
-        running = false;
-        clearTimeouts();
-        resetAll();
-        clearProspectDots();
-      }
+      if (e.isIntersecting && !running) { running = true; runSequence(); }
+      else if (!e.isIntersecting && running) { running = false; clearTimeouts(); resetAll(); }
     });
-  }, { threshold: 0.25 });
+  }, { threshold: 0.2 });
   hubObserver.observe(hubEl);
 })();
 
