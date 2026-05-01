@@ -217,7 +217,7 @@
  /* ─── SOLUTION / WAVE HUB ─── */
  .solution-wrap {
    background: linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(10,10,15,1) 30%, rgba(10,10,15,1) 70%, rgba(6,6,8,0) 100%);
-   padding: 4rem 2rem 8rem; position: relative; z-index: 1; overflow: visible;
+   padding: 2rem 2rem 5rem; position: relative; z-index: 1; overflow: visible;
  }
  .solution-wrap .inner { max-width: 1100px; margin: 0 auto; text-align: center; }
  .solution-wrap .subtitle { margin: 0 auto 4rem; }
@@ -1062,59 +1062,113 @@ statsObserver.observe(document.getElementById('results'));
   }
 
   function fireMessagePackets(cb) {
-    const rect = document.getElementById('fc-1').getBoundingClientRect();
-    const hubRect = mapPanel.getBoundingClientRect();
-    const centerX = (rect.left + rect.width/2 - hubRect.left) / hubRect.width * 100;
-    const centerY = (rect.top + rect.height/2 - hubRect.top) / hubRect.height * 100;
-    const emojis = ['✉️','📱','💬','📧','📲'];
+    // Fly small message dots FROM map dots TOWARD the Outreach pill
+    const pillEl = document.getElementById('fc-1');
+    const mapRect = mapPanel.getBoundingClientRect();
+    const pillRect = pillEl.getBoundingClientRect();
+    // Target: center of pill relative to mapPanel
+    const targetX = (pillRect.left + pillRect.width/2 - mapRect.left);
+    const targetY = (pillRect.top + pillRect.height/2 - mapRect.top);
+
     let count = 0;
+    const total = prospectDots.length;
     prospectDots.forEach((dot, i) => {
       timeouts.push(setTimeout(() => {
         if (!running) return;
         const pkt = document.createElement('div');
-        pkt.className = 'msg-packet';
-        pkt.textContent = emojis[i % emojis.length];
-        const dl = parseFloat(dot.style.left), dt = parseFloat(dot.style.top);
-        pkt.style.left = dl + '%'; pkt.style.top = dt + '%';
-        const tx = (centerX - dl) * hubRect.width / 100 * 0.7;
-        const ty = (centerY - dt) * hubRect.height / 100 * 0.7;
-        pkt.style.setProperty('--tx', tx + 'px');
-        pkt.style.setProperty('--ty', ty + 'px');
-        pkt.style.animation = 'packet-fly 1s ease-in forwards';
-        hubEl.appendChild(pkt);
-        setTimeout(() => pkt.remove(), 1050);
-        if (++count === prospectDots.length && cb) setTimeout(cb, 1100);
-      }, i * 50));
+        pkt.style.cssText = 'position:absolute;width:6px;height:6px;background:#c0162c;border-radius:50%;pointer-events:none;z-index:10;box-shadow:0 0 6px #c0162c;';
+        const dl = parseFloat(dot.style.left);
+        const dt = parseFloat(dot.style.top);
+        // Start at dot position (px)
+        const startX = dl / 100 * mapRect.width;
+        const startY = dt / 100 * mapRect.height;
+        pkt.style.left = startX + 'px';
+        pkt.style.top  = startY + 'px';
+        mapPanel.appendChild(pkt);
+        pkt.animate([
+          { transform: 'translate(0,0)', opacity: 1 },
+          { transform: `translate(${targetX - startX}px,${targetY - startY}px)`, opacity: 0 }
+        ], { duration: 900, easing: 'ease-in', fill: 'forwards' });
+        setTimeout(() => pkt.remove(), 950);
+        if (++count === total && cb) setTimeout(cb, 1000);
+      }, i * 45));
     });
   }
 
-  function spawnEmojiBurst(emojis, container, cb) {
-    const rect = container.getBoundingClientRect();
-    const count = 12;
+  // Nurture: pulsing connection lines between existing dots
+  function animateNurture(cb) {
+    const count = 10;
     for (let i = 0; i < count; i++) {
       timeouts.push(setTimeout(() => {
-        if (!running) return;
-        const el = document.createElement('div');
-        el.style.cssText = `position:absolute;font-size:16px;pointer-events:none;z-index:10;opacity:1;`;
-        // Random start position across map
-        const sx = 10 + Math.random() * 80;
-        const sy = 10 + Math.random() * 80;
-        el.style.left = sx + '%';
-        el.style.top = sy + '%';
-        el.textContent = emojis[i % emojis.length];
-        container.appendChild(el);
-        // Animate: float up and fade
-        const tx = (Math.random() - 0.5) * 80;
-        const ty = -(40 + Math.random() * 60);
-        el.animate([
-          { opacity: 1, transform: 'translate(0,0) scale(1)' },
-          { opacity: 0, transform: `translate(${tx}px,${ty}px) scale(1.4)` }
-        ], { duration: 1200, easing: 'ease-out', fill: 'forwards' });
-        setTimeout(() => el.remove(), 1250);
-      }, i * 80));
+        if (!running || prospectDots.length < 2) return;
+        const a = prospectDots[Math.floor(Math.random() * prospectDots.length)];
+        const b = prospectDots[Math.floor(Math.random() * prospectDots.length)];
+        if (a === b) return;
+        const mapRect = mapPanel.getBoundingClientRect();
+        const ax = parseFloat(a.style.left)/100 * mapRect.width;
+        const ay = parseFloat(a.style.top)/100  * mapRect.height;
+        const bx = parseFloat(b.style.left)/100 * mapRect.width;
+        const by = parseFloat(b.style.top)/100  * mapRect.height;
+        const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+        svg.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:8;overflow:visible;';
+        const line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1', ax); line.setAttribute('y1', ay);
+        line.setAttribute('x2', bx); line.setAttribute('y2', by);
+        line.setAttribute('stroke','#c0162c'); line.setAttribute('stroke-width','1');
+        line.setAttribute('stroke-dasharray','4,4'); line.setAttribute('opacity','0');
+        svg.appendChild(line);
+        mapPanel.appendChild(svg);
+        line.animate([{opacity:0},{opacity:0.7},{opacity:0.7},{opacity:0}],{duration:1400,easing:'ease-in-out',fill:'forwards'});
+        setTimeout(() => svg.remove(), 1450);
+      }, i * 120));
     }
-    if (cb) timeouts.push(setTimeout(cb, count * 80 + 1300));
+    if (cb) timeouts.push(setTimeout(cb, count * 120 + 1500));
   }
+
+  // Booking: calendar grid squares appearing at dot locations
+  function animateBooking(cb) {
+    const count = 8;
+    for (let i = 0; i < count; i++) {
+      timeouts.push(setTimeout(() => {
+        if (!running || !prospectDots[i]) return;
+        const dot = prospectDots[i * Math.floor(prospectDots.length / count)] || prospectDots[i];
+        const el = document.createElement('div');
+        el.style.cssText = 'position:absolute;width:14px;height:14px;border:1.5px solid #c0162c;border-radius:2px;pointer-events:none;z-index:9;display:grid;grid-template-columns:1fr 1fr;gap:1px;padding:1px;';
+        el.style.left = parseFloat(dot.style.left) + '%';
+        el.style.top  = parseFloat(dot.style.top) + '%';
+        el.style.transform = 'translate(-50%,-50%)';
+        for(let j=0;j<4;j++){const sq=document.createElement('div');sq.style.cssText='background:rgba(192,22,44,0.6);border-radius:1px;';el.appendChild(sq);}
+        mapPanel.appendChild(el);
+        el.animate([{opacity:0,transform:'translate(-50%,-50%) scale(0)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)'},{opacity:1},{opacity:0}],{duration:1600,easing:'ease-out',fill:'forwards'});
+        setTimeout(() => el.remove(), 1650);
+      }, i * 150));
+    }
+    if (cb) timeouts.push(setTimeout(cb, count * 150 + 1700));
+  }
+
+  // Reporting: clean number counters appearing on the map
+  function animateReporting(cb) {
+    const stats = ['+12%','+8','+24%','×3','98%','+47','+31%','+5'];
+    const count = 8;
+    for (let i = 0; i < count; i++) {
+      timeouts.push(setTimeout(() => {
+        if (!running || !prospectDots[i]) return;
+        const dot = prospectDots[Math.floor(i * prospectDots.length / count)];
+        const el = document.createElement('div');
+        el.style.cssText = 'position:absolute;font-size:10px;font-weight:700;color:#c0162c;pointer-events:none;z-index:9;font-family:monospace;letter-spacing:0.5px;text-shadow:0 0 8px rgba(192,22,44,0.5);';
+        el.style.left = parseFloat(dot.style.left) + '%';
+        el.style.top  = parseFloat(dot.style.top) + '%';
+        el.style.transform = 'translate(-50%,-150%)';
+        el.textContent = stats[i % stats.length];
+        mapPanel.appendChild(el);
+        el.animate([{opacity:0,transform:'translate(-50%,-150%) scale(0.5)'},{opacity:1,transform:'translate(-50%,-160%) scale(1)'},{opacity:1,transform:'translate(-50%,-170%) scale(1)'},{opacity:0}],{duration:1800,easing:'ease-out',fill:'forwards'});
+        setTimeout(() => el.remove(), 1850);
+      }, i * 140));
+    }
+    if (cb) timeouts.push(setTimeout(cb, count * 140 + 1900));
+  }
+
+  function spawnEmojiBurst(emojis, container, cb) { if(cb) cb(); } // legacy stub
 
   function runSequence() {
     if (!running) return;
@@ -1142,21 +1196,21 @@ statsObserver.observe(document.getElementById('results'));
             timeouts.push(setTimeout(() => {
               if (!running) return;
               lightCard(2);
-              spawnEmojiBurst(['🎁','💌','📩','🤝','💐'], mapPanel, () => {});
+              animateNurture(() => {});
             }, 1400));
 
             // Card 3: Booking
             timeouts.push(setTimeout(() => {
               if (!running) return;
               lightCard(3);
-              spawnEmojiBurst(['📅','🗓️','✅','📆','🤙'], mapPanel, () => {});
+              animateBooking(() => {});
             }, 2800));
 
             // Card 4: Reporting
             timeouts.push(setTimeout(() => {
               if (!running) return;
               lightCard(4);
-              spawnEmojiBurst(['📊','📈','💹','📉','🔢'], mapPanel, () => {});
+              animateReporting(() => {});
             }, 4200));
 
             // All lit — flash then reset
