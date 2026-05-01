@@ -217,13 +217,13 @@
  /* ─── SOLUTION / WAVE HUB ─── */
  .solution-wrap {
    background: linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(10,10,15,1) 30%, rgba(10,10,15,1) 70%, rgba(6,6,8,0) 100%);
-   padding: 7rem 2rem; position: relative; z-index: 1; overflow: visible;
+   padding: 5rem 2rem 12rem; position: relative; z-index: 1; overflow: visible;
  }
  .solution-wrap .inner { max-width: 1100px; margin: 0 auto; text-align: center; }
  .solution-wrap .subtitle { margin: 0 auto 4rem; }
 
  .hub-container {
-   position: relative; width: 100%; max-width: 620px;
+   position: relative; width: 100%; max-width: 580px;
    margin: 0 auto; aspect-ratio: 1;
  }
 
@@ -314,12 +314,12 @@
  .fc-4 { top: 32%;  left: 8%;  }
 
  /* ─── STATS ─── */
- #stats {
+ #results {
    max-width: 100%; padding: 5rem 2rem; position: relative; z-index: 1;
    background: linear-gradient(180deg, rgba(6,6,8,0) 0%, rgba(12,5,8,0.4) 50%, rgba(6,6,8,0) 100%);
    border-top: 1px solid rgba(255,255,255,0.03); border-bottom: 1px solid rgba(255,255,255,0.03);
  }
- #stats .inner {
+ #results .inner {
    max-width: 1100px; margin: 0 auto;
    display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
    gap: 2rem; text-align: center;
@@ -640,10 +640,58 @@
 <!-- SOLUTION -->
 <div class="solution-wrap" id="solution" style="position:relative;">
   <!-- US Map background -->
-  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(860px,95vw);pointer-events:none;z-index:0;overflow:hidden;">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Blank_US_Map_%28states_only%29.svg/1280px-Blank_US_Map_%28states_only%29.svg.png" 
-         style="width:100%;opacity:0.12;filter:invert(0%) sepia(100%) saturate(1000%) hue-rotate(310deg) brightness(0.8);" 
-         alt=""/>
+  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(900px,96vw);pointer-events:none;z-index:0;">
+  <svg viewBox="0 0 959 593" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+  <g fill="rgba(192,22,44,0.07)" stroke="#c0162c" stroke-width="0.8" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Maine --><path d="M830,36 L838,32 L848,34 L852,42 L848,52 L840,56 L832,52 L828,44 Z"/>
+    <!-- New Hampshire/Vermont --><path d="M800,44 L812,40 L822,44 L826,56 L820,68 L808,72 L798,66 L796,54 Z"/>
+    <!-- Massachusetts --><path d="M796,68 L820,68 L826,76 L820,84 L806,86 L796,80 Z"/>
+    <!-- Rhode Island/Connecticut --><path d="M806,86 L820,84 L824,94 L816,98 L806,94 Z"/>
+    <!-- New York --><path d="M754,48 L798,44 L800,54 L796,68 L796,80 L784,88 L768,88 L754,80 L744,68 L748,56 Z"/>
+    <!-- New Jersey --><path d="M784,88 L796,80 L806,94 L800,104 L786,106 L778,98 Z"/>
+    <!-- Pennsylvania --><path d="M744,68 L796,68 L796,80 L784,88 L778,98 L752,98 L728,96 L724,80 L736,68 Z"/>
+    <!-- Delaware/Maryland --><path d="M786,106 L800,104 L806,116 L796,122 L782,118 Z"/>
+    <!-- Virginia --><path d="M728,96 L778,98 L782,118 L796,122 L790,134 L770,142 L746,140 L724,132 L718,116 Z"/>
+    <!-- West Virginia --><path d="M724,80 L728,96 L718,116 L706,110 L702,96 L710,82 Z"/>
+    <!-- North Carolina --><path d="M724,132 L770,142 L778,154 L760,162 L736,164 L710,158 L700,148 L710,136 Z"/>
+    <!-- South Carolina --><path d="M736,164 L760,162 L772,174 L764,186 L744,190 L724,180 L720,166 Z"/>
+    <!-- Georgia --><path d="M700,148 L710,158 L720,166 L724,180 L718,196 L700,200 L680,192 L672,174 L680,158 Z"/>
+    <!-- Florida --><path d="M700,200 L718,196 L724,208 L720,224 L714,240 L706,256 L696,268 L684,272 L676,264 L672,248 L668,228 L670,212 L680,204 Z"/>
+    <!-- Alabama --><path d="M672,174 L680,192 L680,204 L670,212 L656,208 L648,194 L652,176 Z"/>
+    <!-- Mississippi --><path d="M640,164 L652,176 L648,194 L650,210 L636,214 L622,204 L618,186 L624,168 Z"/>
+    <!-- Tennessee --><path d="M680,158 L700,148 L672,174 L652,176 L640,164 L628,158 L636,148 L660,146 Z"/>
+    <!-- Kentucky --><path d="M718,116 L724,132 L710,136 L700,148 L680,158 L660,146 L636,148 L628,140 L632,126 L648,118 L672,114 L698,112 Z"/>
+    <!-- Ohio --><path d="M724,80 L744,80 L752,98 L744,112 L728,116 L718,116 L702,96 L706,82 Z"/>
+    <!-- Indiana --><path d="M702,96 L718,116 L698,112 L672,114 L660,104 L664,90 L680,82 Z"/>
+    <!-- Illinois --><path d="M660,90 L664,90 L680,82 L680,66 L670,54 L652,56 L640,68 L640,84 L648,100 L660,104 Z"/>
+    <!-- Michigan UP+LP approx --><path d="M680,50 L700,44 L720,46 L728,56 L724,68 L712,72 L696,70 L684,62 Z"/>
+    <!-- Michigan Lower --><path d="M724,68 L744,68 L744,80 L724,80 L712,72 Z"/>
+    <!-- Wisconsin --><path d="M640,40 L660,36 L680,40 L680,50 L684,62 L680,66 L670,54 L652,56 L640,52 Z"/>
+    <!-- Minnesota --><path d="M580,20 L620,16 L650,18 L660,36 L640,40 L640,52 L620,56 L600,54 L582,44 Z"/>
+    <!-- Iowa --><path d="M600,54 L620,56 L640,52 L652,56 L640,68 L640,84 L620,88 L600,86 L582,74 L582,60 Z"/>
+    <!-- Missouri --><path d="M600,86 L620,88 L640,84 L648,100 L640,116 L636,130 L618,134 L600,130 L586,116 L588,100 Z"/>
+    <!-- Arkansas --><path d="M588,130 L600,130 L618,134 L624,150 L618,164 L600,170 L582,164 L574,148 L576,134 Z"/>
+    <!-- Louisiana --><path d="M582,164 L600,170 L622,168 L628,182 L622,196 L606,204 L590,202 L576,190 L572,174 Z"/>
+    <!-- Mississippi already done -->
+    <!-- Kansas --><path d="M500,98 L540,96 L580,96 L588,100 L586,116 L586,132 L548,134 L508,132 L500,116 Z"/>
+    <!-- Nebraska --><path d="M500,68 L540,64 L580,64 L586,68 L588,86 L580,96 L540,96 L500,98 L494,82 Z"/>
+    <!-- South Dakota --><path d="M480,40 L520,36 L560,36 L580,40 L580,64 L540,64 L500,68 L480,56 Z"/>
+    <!-- North Dakota --><path d="M460,18 L500,16 L540,16 L570,18 L580,20 L582,34 L580,40 L560,36 L520,36 L480,40 L462,36 Z"/>
+    <!-- Oklahoma --><path d="M460,130 L500,128 L508,132 L548,134 L548,150 L500,152 L460,150 L440,144 L442,134 Z"/>
+    <!-- Texas --><path d="M400,138 L440,134 L460,130 L460,150 L500,152 L500,176 L490,200 L476,222 L460,238 L444,250 L430,250 L410,238 L396,220 L380,196 L376,172 L384,150 Z"/>
+    <!-- New Mexico --><path d="M360,124 L400,120 L400,138 L384,150 L376,172 L360,172 L340,172 L336,148 L340,124 Z"/>
+    <!-- Colorado --><path d="M380,84 L420,82 L460,80 L480,80 L480,98 L500,98 L500,116 L508,132 L460,130 L442,134 L400,138 L400,120 L380,120 L362,114 L362,96 Z"/>
+    <!-- Wyoming --><path d="M360,56 L400,52 L440,50 L480,50 L480,80 L460,80 L420,82 L380,84 L362,84 L356,70 Z"/>
+    <!-- Montana --><path d="M300,20 L360,18 L420,18 L460,20 L462,36 L480,40 L480,50 L440,50 L400,52 L360,56 L320,56 L296,48 Z"/>
+    <!-- Idaho --><path d="M296,48 L320,56 L360,56 L356,70 L356,90 L340,104 L316,108 L296,100 L280,80 L284,60 Z"/>
+    <!-- Utah --><path d="M316,108 L340,104 L362,96 L362,114 L380,120 L360,124 L340,124 L320,122 L308,110 Z"/>
+    <!-- Arizona --><path d="M296,124 L320,122 L340,124 L336,148 L340,172 L320,180 L296,180 L276,166 L272,144 L282,128 Z"/>
+    <!-- Nevada --><path d="M280,80 L296,100 L316,108 L308,110 L296,124 L282,128 L262,118 L256,96 L264,76 Z"/>
+    <!-- California --><path d="M240,60 L264,76 L256,96 L262,118 L252,136 L240,152 L230,170 L220,182 L208,188 L200,176 L204,152 L210,128 L220,104 L224,80 L232,60 Z"/>
+    <!-- Oregon --><path d="M224,40 L256,36 L280,38 L280,52 L280,80 L264,76 L240,60 L224,52 Z"/>
+    <!-- Washington --><path d="M220,18 L260,16 L280,18 L284,30 L280,38 L256,36 L224,40 L218,32 Z"/>
+  </g>
+</svg>
   </div>
  <div class="inner">
    <div class="section-label reveal">The Solution</div>
@@ -872,7 +920,7 @@ function animateCounter(el) {
 const statsObserver = new IntersectionObserver((entries) => {
  entries.forEach(e => { if (e.isIntersecting) { e.target.querySelectorAll('[data-target]').forEach(animateCounter); statsObserver.unobserve(e.target); } });
 }, { threshold: 0.3 });
-statsObserver.observe(document.getElementById('stats'));
+statsObserver.observe(document.getElementById('results'));
 
 /* ═══════════════════════════════════════════════
    WAVE ACTIVATION SEQUENCE + MAP ANIMATIONS
