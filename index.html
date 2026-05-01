@@ -639,21 +639,115 @@
 
 <!-- SOLUTION -->
 <div class="solution-wrap" id="solution" style="position:relative;">
-  <!-- BIG US Map -->
-  <svg viewBox="0 0 1000 600" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:110%;height:90%;opacity:0.18;pointer-events:none;z-index:0;">
-    <path d="M80,100 L120,75 L175,60 L235,50 L295,44 L360,40 L425,42 L490,44 L555,42 L620,38 L685,36 L748,38 L808,44 L858,54 L900,70 L930,92 L950,118 L960,148 L958,180 L950,212 L938,244 L928,276 L924,308 L928,336 L934,360 L928,382 L912,400 L890,414 L862,424 L830,430 L796,434 L760,438 L722,440 L684,438 L646,432 L610,428 L574,430 L538,434 L502,437 L466,440 L430,438 L394,432 L358,430 L322,432 L286,436 L250,440 L214,438 L180,432 L150,422 L126,408 L108,390 L96,368 L88,342 L82,314 L78,284 L74,254 L70,224 L68,194 L70,164 L76,136 L84,114 Z" fill="none" stroke="#c0162c" stroke-width="2.5"/>
-    <path d="M684,418 L700,436 L712,458 L718,480 L714,500 L704,514 L690,520 L676,514 L668,498 L664,478 L666,458 L674,440 Z" fill="none" stroke="#c0162c" stroke-width="1.5"/>
-    <path d="M318,328 L298,348 L282,372 L272,398 L268,422 L274,442 L286,454 L304,460 L324,456 L344,446 L358,430 L366,410 L364,388 L354,366 L338,348 Z" fill="none" stroke="#c0162c" stroke-width="1.5"/>
-    <ellipse cx="650" cy="150" rx="32" ry="16" fill="none" stroke="#c0162c" stroke-width="1.2" opacity="0.7"/>
-    <ellipse cx="698" cy="134" rx="24" ry="12" fill="none" stroke="#c0162c" stroke-width="1.2" opacity="0.7"/>
-    <ellipse cx="736" cy="150" rx="18" ry="9" fill="none" stroke="#c0162c" stroke-width="1.2" opacity="0.7"/>
-    <line x1="235" y1="44" x2="228" y2="436" stroke="#c0162c" stroke-width="0.6" stroke-dasharray="6,14" opacity="0.4"/>
-    <line x1="390" y1="40" x2="384" y2="438" stroke="#c0162c" stroke-width="0.6" stroke-dasharray="6,14" opacity="0.4"/>
-    <line x1="548" y1="40" x2="544" y2="436" stroke="#c0162c" stroke-width="0.6" stroke-dasharray="6,14" opacity="0.4"/>
-    <line x1="706" y1="36" x2="706" y2="430" stroke="#c0162c" stroke-width="0.6" stroke-dasharray="6,14" opacity="0.4"/>
-    <line x1="68" y1="200" x2="962" y2="200" stroke="#c0162c" stroke-width="0.6" stroke-dasharray="6,14" opacity="0.4"/>
-    <line x1="68" y1="320" x2="962" y2="320" stroke="#c0162c" stroke-width="0.6" stroke-dasharray="6,14" opacity="0.4"/>
+  <!-- US Map - positioned behind hub only -->
+  <div id="us-map-wrap" style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:min(800px,95vw);aspect-ratio:1.6;pointer-events:none;z-index:0;opacity:0.22;">
+  <svg viewBox="0 0 800 500" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+    <!-- Proper simplified continental US outline -->
+    <path d="
+      M 190,55 L 205,48 L 225,44 L 250,40 L 280,37 L 315,35 L 355,34 L 395,35 L 435,36
+      L 475,35 L 515,33 L 555,31 L 595,30 L 630,31 L 660,33 L 688,37 L 712,43 L 732,52
+      L 748,63 L 758,77 L 763,93 L 762,110 L 756,127 L 747,142 L 736,155 L 724,165
+      L 712,173 L 700,179 L 688,183 L 676,185 L 664,186 L 652,185 L 640,183
+      L 628,180 L 617,177 L 606,174 L 595,172 L 584,172 L 573,173 L 562,176
+      L 551,180 L 540,185 L 529,191 L 518,198 L 507,206 L 496,214 L 486,222
+      L 476,230 L 466,237 L 456,244 L 446,250 L 436,255 L 426,259 L 416,262
+      L 406,264 L 396,265 L 386,264 L 376,262 L 366,259 L 356,254 L 347,248
+      L 338,241 L 330,233 L 323,224 L 318,214 L 315,204 L 314,193 L 316,183
+      L 320,173 L 327,164 L 336,156 L 347,149 L 360,144 L 374,141 L 389,140
+      L 404,141 L 418,144 L 430,149 L 440,156 L 447,164 L 451,173 L 452,182
+      L 449,191 L 442,199 L 432,206 L 420,211 L 406,214 L 392,215 L 378,213
+      L 365,209 L 354,203 L 345,195 L 339,186 L 337,176 L 339,167 L 344,158
+      L 353,151 L 364,146 L 377,143 L 391,143 L 404,145 L 415,150 L 423,157
+      L 427,165 L 427,174 L 422,182 L 413,188 L 401,192 L 388,193 L 376,191
+      L 365,186 L 358,179 L 355,171 L 357,163 L 363,156 L 373,151 L 385,149
+      L 397,150 L 407,155 L 413,162 L 414,170 L 410,178 L 401,183 L 390,185
+      L 380,183 L 372,178 L 368,171 L 370,164 L 376,159 L 385,157 L 393,159
+      L 398,165 L 397,172 L 391,177 L 383,178"
+      fill="none" stroke="#c0162c" stroke-width="0" opacity="0"/>
+    <!-- Much simpler: use a recognizable blocky US shape -->
+    <!-- Pacific Coast -->
+    <polyline points="
+      82,42 78,60 74,82 70,108 68,138 66,165 65,192 66,218 70,242 76,262
+      84,278 94,290 102,298 108,302 112,304
+    " fill="none" stroke="#c0162c" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Northern border (roughly) -->
+    <polyline points="
+      82,42 100,36 124,31 152,27 184,24 220,22 260,20 302,19 346,19 390,20
+      432,21 472,22 510,22 546,22 578,23 606,25 628,28 646,33 660,40 670,48
+      676,58 680,70
+    " fill="none" stroke="#c0162c" stroke-width="2" stroke-linejoin="round"/>
+    <!-- East Coast -->
+    <polyline points="
+      680,70 682,88 682,108 680,128 676,148 670,165 662,180 652,193
+      640,204 626,213 610,220 592,225 572,228 550,229 526,228 500,225
+      472,220 444,213 416,205 390,196 366,186 344,175 326,163 312,150
+      302,137 296,122 294,108 294,95 296,83 300,73 306,64 314,57 322,52
+      330,49 338,47 346,46 354,47 362,50 368,55
+    " fill="none" stroke="#c0162c" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Southern border -->
+    <polyline points="
+      112,304 120,308 130,312 144,316 160,318 178,320 198,320 220,319
+      244,317 270,315 298,313 328,312 358,312 388,313 418,315 448,318
+      476,322 502,327 526,333 548,340 568,348 584,356 596,362 604,366
+      608,368
+    " fill="none" stroke="#c0162c" stroke-width="2" stroke-linejoin="round"/>
+    <!-- Gulf Coast + Florida -->
+    <polyline points="
+      608,368 612,360 616,350 618,338 616,326 610,315 600,306 586,298
+      570,292 552,288 532,286 510,286 488,288 466,292 444,298 424,306
+      406,315 390,325 376,336 364,348 354,360 346,374 340,388 336,402
+      334,416 334,430 336,442 340,452 346,460 354,466 362,468
+    " fill="none" stroke="#c0162c" stroke-width="1.5" stroke-linejoin="round"/>
+    <!-- Mexico border / SW -->
+    <polyline points="
+      112,304 108,310 106,320 106,332 108,344 112,356 118,366 126,374
+      136,380 148,384 162,386 178,386 196,384 216,380 238,374 262,367
+      288,358 316,348 346,337 376,325 406,313 436,301 466,290 496,280
+      524,272 550,264 574,258 596,254 614,252 630,251 642,252 652,255
+      660,260 666,267 670,276 672,287 672,300 670,314 666,328 660,342
+      652,354 642,364 630,372 616,378 600,382 582,384 562,384 540,382
+      518,378 494,372 470,364 446,355 422,344 398,332 376,320 354,308
+      334,296 316,284 302,272 292,261 285,250 280,240 277,230 276,221
+      277,213 280,206 285,200 292,195 300,192 310,190
+    " fill="none" stroke="#c0162c" stroke-width="0" opacity="0"/>
+    <!-- Simple clean US outline instead - proper shape -->
+    <path d="M 75,50 
+             C 75,50 90,30 150,22 C 210,14 350,16 480,18 C 580,19 650,24 680,45
+             C 700,58 705,80 700,105
+             C 695,130 682,155 660,175 
+             C 638,195 610,208 580,215
+             C 560,220 538,222 515,221
+             C 490,220 463,215 435,208
+             C 400,199 362,187 328,173
+             C 295,160 265,144 240,127
+             C 215,110 195,92 180,76
+             C 165,62 155,52 140,46
+             C 120,38 95,42 75,50 Z" 
+          fill="rgba(192,22,44,0.06)" stroke="#c0162c" stroke-width="2.5"/>
+    <!-- Florida -->
+    <path d="M 380,208 C 370,220 358,235 348,252 C 338,270 330,290 326,308
+             C 322,326 322,342 326,354 C 330,364 338,370 348,370
+             C 358,370 368,364 376,354 C 384,342 388,326 388,308
+             C 388,290 384,272 378,256 C 374,244 376,224 380,208 Z"
+          fill="rgba(192,22,44,0.06)" stroke="#c0162c" stroke-width="1.5"/>
+    <!-- Texas bump -->
+    <path d="M 200,195 C 185,205 170,218 158,234 C 146,250 138,268 136,284
+             C 134,300 138,314 148,322 C 158,330 172,332 188,328
+             C 204,324 220,314 234,300 C 248,286 258,268 262,250
+             C 266,232 262,215 252,204 C 242,193 224,192 210,196 Z"
+          fill="rgba(192,22,44,0.06)" stroke="#c0162c" stroke-width="1.5"/>
+    <!-- Great Lakes -->
+    <ellipse cx="530" cy="85" rx="30" ry="13" fill="rgba(192,22,44,0.04)" stroke="#c0162c" stroke-width="1" opacity="0.6"/>
+    <ellipse cx="568" cy="72" rx="22" ry="10" fill="rgba(192,22,44,0.04)" stroke="#c0162c" stroke-width="1" opacity="0.6"/>
+    <!-- State grid -->
+    <line x1="75" y1="120" x2="700" y2="120" stroke="#c0162c" stroke-width="0.5" stroke-dasharray="5,15" opacity="0.35"/>
+    <line x1="75" y1="175" x2="700" y2="175" stroke="#c0162c" stroke-width="0.5" stroke-dasharray="5,15" opacity="0.35"/>
+    <line x1="200" y1="22" x2="200" y2="370" stroke="#c0162c" stroke-width="0.5" stroke-dasharray="5,15" opacity="0.35"/>
+    <line x1="340" y1="18" x2="340" y2="370" stroke="#c0162c" stroke-width="0.5" stroke-dasharray="5,15" opacity="0.35"/>
+    <line x1="480" y1="18" x2="480" y2="220" stroke="#c0162c" stroke-width="0.5" stroke-dasharray="5,15" opacity="0.35"/>
+    <line x1="608" y1="20" x2="608" y2="215" stroke="#c0162c" stroke-width="0.5" stroke-dasharray="5,15" opacity="0.35"/>
   </svg>
+  </div>
  <div class="inner">
    <div class="section-label reveal">The Solution</div>
    <h2 class="reveal">Meet Your AI Outreach Machine</h2>
