@@ -231,7 +231,7 @@
 /* AI Agent top circle */
 .hub-center {
   position: relative; width: 110px; height: 110px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(20,5,10,1) 0%, rgba(10,10,15,1) 100%);
+  background: radial-gradient(circle, rgba(20,5,10,0.7) 0%, rgba(10,10,15,0.6) 100%);
   border: 2px solid rgba(192,22,44,0.7);
   box-shadow: 0 0 40px rgba(192,22,44,0.25), 0 0 80px rgba(192,22,44,0.1);
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -259,20 +259,21 @@
 }
 .feature-card {
   display: flex; flex-direction: column; align-items: center;
-  width: 110px; padding: 1rem 0.5rem 0.8rem;
-  background: rgba(12,12,16,0.85);
-  border: 1.5px solid rgba(255,255,255,0.05);
+  width: 90px; padding: 0.7rem 0.4rem;
+  background: rgba(8,4,6,0.45);
+  border: 1.5px solid rgba(192,22,44,0.2);
   border-radius: 50%; aspect-ratio: 1;
   text-align: center;
   transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
-  backdrop-filter: blur(10px);
-  opacity: 0.3; cursor: default;
+  backdrop-filter: blur(4px);
+  opacity: 0.35; cursor: default;
   justify-content: center;
 }
 .feature-card.lit {
   opacity: 1;
-  border-color: rgba(192,22,44,0.6);
-  box-shadow: 0 0 30px rgba(192,22,44,0.2), 0 0 60px rgba(192,22,44,0.08);
+  background: rgba(12,4,8,0.6);
+  border-color: rgba(192,22,44,0.7);
+  box-shadow: 0 0 30px rgba(192,22,44,0.25), 0 0 60px rgba(192,22,44,0.1);
 }
 .feature-card.flash {
   box-shadow: 0 0 50px rgba(192,22,44,0.4), 0 0 100px rgba(192,22,44,0.2) !important;
@@ -763,9 +764,9 @@
      <div class="hub-connectors">
        <svg id="hub-svg" viewBox="0 0 800 60" preserveAspectRatio="none">
          <!-- Vertical drop from center -->
-         <line class="hub-line" id="line-trunk" x1="400" y1="0" x2="400" y2="30" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <line class="hub-line" id="line-trunk" x1="400" y1="0" x2="400" y2="30" stroke="rgba(192,22,44,0.3)" stroke-width="1.5"/>
          <!-- Horizontal bar -->
-         <line class="hub-line" id="line-bar" x1="80" y1="30" x2="720" y2="30" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
+         <line class="hub-line" id="line-bar" x1="80" y1="30" x2="720" y2="30" stroke="rgba(192,22,44,0.2)" stroke-width="1" stroke-dasharray="4,6"/>
          <!-- Drops to each node (5 evenly spaced: 80,240,400,560,720) -->
          <line class="hub-line" id="line-0" x1="80"  y1="30" x2="80"  y2="60" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
          <line class="hub-line" id="line-1" x1="240" y1="30" x2="240" y2="60" stroke="rgba(192,22,44,0.25)" stroke-width="1.5"/>
