@@ -259,14 +259,14 @@
 }
 .feature-card {
   display: flex; flex-direction: row; align-items: center;
-  width: 160px; padding: 0.6rem 1rem;
+  width: 180px; padding: 0.65rem 1.2rem;
   background: rgba(8,4,6,0.6);
-  border: 1.5px solid rgba(192,22,44,0.2);
-  border-radius: 12px;
+  border: 1.5px solid rgba(192,22,44,0.25);
+  border-radius: 50px;
   transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
   backdrop-filter: blur(6px);
   opacity: 0.35; cursor: default;
-  gap: 0.6rem;
+  gap: 0.8rem;
 }
 .feature-card.lit {
   opacity: 1;
@@ -285,11 +285,10 @@
 }
 .feature-card.lit svg { opacity: 1; filter: drop-shadow(0 0 5px rgba(192,22,44,0.5)); }
 .feature-card .spoke-label {
-  font-size: 0.58rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.8px; color: var(--red); opacity: 0.4; transition: opacity 0.5s;
-  margin-top: 0.1rem;
+  font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--muted-light); opacity: 0.5; transition: opacity 0.5s;
 }
-.feature-card.lit .spoke-label { opacity: 1; }
+.feature-card.lit .spoke-label { opacity: 1; color: #fff; }
 .feature-card .spoke-desc {
   font-size: 0.55rem; color: var(--muted); margin-top: 0.2rem;
   line-height: 1.3; opacity: 0; transition: opacity 0.5s; display: none;
