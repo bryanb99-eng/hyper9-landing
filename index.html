@@ -534,10 +534,27 @@
 
  /* ─── RESPONSIVE ─── */
  @media (max-width: 768px) {
-   nav { padding: 0.6rem 1rem; }
-   .nav-logo { height: 44px; }
+   /* NAV: logo small, hide links, keep Book a Call button contained */
+   nav { padding: 0.5rem 0.8rem; gap: 0; }
+   .nav-logo { height: 36px; }
    .nav-links { display: none !important; }
-   #hero { padding: 5rem 1rem 2rem; }
+   .nav-cta { font-size: 0.75rem; padding: 0.45rem 0.9rem; white-space: nowrap; }
+   /* HERO */
+   #hero { padding: 5.5rem 1.2rem 2rem; }
+   /* Headline: 1 line then Calling You centered */
+   #hero h1 { white-space: normal !important; font-size: 2rem !important; text-align: center !important; }
+   /* Badge fully visible */
+   .hero-badge { margin-top: 0.5rem; }
+   /* CTAs stack full width */
+   .hero-cta { flex-direction: column !important; align-items: stretch !important; width: 100%; }
+   .hero-cta a { text-align: center; }
+   /* Hero copy centered on mobile */
+   #hero p { text-align: center !important; }
+   /* Widget smaller on mobile */
+   #hero .widget-box { width: 220px !important; min-height: 250px !important; }
+   /* Mobile: copy first, widget second */
+   #hero [style*="order:0"] { order: 0 !important; }
+   #hero [style*="order:1"] { order: 1 !important; }
    .hub-container { max-width: 300px; }
    .feature-card { width: 90px; padding: 0.6rem; }
    .feature-card .spoke-desc { display: none; }
@@ -549,11 +566,6 @@
    .footer-bottom { flex-direction: column; text-align: center; }
    .stat-item .stat-number { font-size: 3rem; }
    .guarantee-card { padding: 2.5rem 1.5rem; }
-   /* Hero widget smaller on mobile */
-   #hero .widget-box { width: 200px !important; min-height: 230px !important; }
-   /* Mobile: copy first, widget second */
-   #hero [style*="order:0"] { order: 0 !important; }
-   #hero [style*="order:1"] { order: 1 !important; }
  }
  @media (max-width: 480px) {
    .hub-container { max-width: 240px; }
@@ -659,7 +671,7 @@
    </div>
 
    <!-- RIGHT: Hero copy -->
-   <div style="flex:1;min-width:280px;padding-top:2rem;text-align:left;max-width:560px;padding-right:1rem;order:0;">
+   <div style="flex:1;min-width:280px;padding-top:1rem;text-align:left;max-width:560px;padding-right:1rem;order:0;width:100%;">
      <div class="hero-badge reveal" style="justify-content:flex-start;">Built for Mortgage Brokers</div>
      <h1 class="reveal" style="text-align:left;font-family:'Merienda', cursive;font-weight:900;font-size:clamp(1.8rem,4vw,3.4rem);line-height:1.3;padding-bottom:0.2em;">Your Realtors Should Be<br><em style="font-style:italic;color:#c0162c;display:block;text-align:center;padding-bottom:0.3em;overflow:visible;line-height:1.4;">Calling You.</em></h1>
      <p class="reveal" style="text-align:left;margin-left:0;font-style:italic;">We build mortgage brokers a done-for-you AI referral pipeline that keeps your calendar full and your Realtor network growing — on autopilot.</p>
