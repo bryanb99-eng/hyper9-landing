@@ -561,9 +561,34 @@
    .hero-badge { white-space: nowrap !important; font-size: 0.6rem !important; padding: 0.35rem 0.9rem !important; }
    /* Badge fully visible */
    .hero-badge { margin-top: 0.5rem; }
-   /* CTAs stack full width */
-   .hero-cta { flex-direction: column !important; align-items: stretch !important; width: 100%; }
-   .hero-cta a { text-align: center; }
+   /* CTAs stack full width and stay prominent immediately under the subtext */
+   .hero-cta {
+     flex-direction: column !important;
+     align-items: stretch !important;
+     width: 100%;
+     gap: 0.75rem;
+     margin-top: 0.25rem;
+   }
+   .hero-cta a {
+     display: block;
+     width: 100%;
+     min-height: 48px;
+     text-align: center;
+     padding: 0.95rem 1.25rem;
+     font-size: 0.95rem;
+     border-radius: 12px;
+   }
+   .hero-cta .btn-primary {
+     background: var(--red);
+     color: #fff;
+     box-shadow: 0 0 24px rgba(192,22,44,0.35), 0 8px 24px rgba(0,0,0,0.35);
+   }
+   .hero-cta .btn-ghost {
+     background: rgba(255,255,255,0.08);
+     color: #fff;
+     border: 1px solid rgba(255,255,255,0.22);
+   }
+   .hero-scroll-hint { display: none; }
    /* Hero copy centered on mobile */
    #hero p { text-align: center !important; }
   /* Thinkrr runs as a floating overlay and should not reserve hero layout space. */
@@ -679,8 +704,12 @@
    <div style="flex:1;min-width:280px;padding-top:1rem;text-align:center;max-width:800px;padding-right:4rem;padding-left:4rem;order:0;width:100%;margin:0 auto;">
      <div class="hero-badge reveal" style="justify-content:center;">Built for Mortgage Brokers</div>
      <h1 class="reveal" style="text-align:left;font-family:'Merienda', cursive;font-weight:900;font-size:clamp(1.8rem,4vw,3.4rem);line-height:1.3;padding-bottom:0.2em;">Your Realtors Should Be<br><em style="font-style:italic;color:#c0162c;display:block;text-align:center;padding-bottom:0.3em;overflow:visible;line-height:1.4;">Calling You.</em></h1>
-     <p class="reveal" style="text-align:center;margin-left:0;font-style:italic;">We build mortgage brokers a done-for-you AI referral pipeline that keeps your calendar full and your Realtor network growing — on autopilot.</p>
-   </div>
+      <p class="reveal" style="text-align:center;margin-left:0;font-style:italic;">We build mortgage brokers a done-for-you AI referral pipeline that keeps your calendar full and your Realtor network growing — on autopilot.</p>
+      <div class="hero-cta reveal">
+        <a href="https://api.leadconnectorhq.com/widget/bookings/hyper9-strategy-call" class="btn-primary">Book a Call</a>
+        <a href="#solution" class="btn-ghost">See How It Works</a>
+      </div>
+    </div>
 
  </div>
  <div class="hero-scroll-hint">
